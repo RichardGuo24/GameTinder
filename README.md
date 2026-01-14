@@ -4,7 +4,7 @@ A full-stack web app for discovering games using a swipe/card UI with 3 decision
 
 ## Overview
 
-OneNightGames helps users discover games across all playtimes (not just one night!). It works especially well for short games but supports filtering by playtime, platform, and co-op type.
+GameTinder helps users discover games across all playtimes (not just one night!). It works especially well for short games but supports filtering by playtime, platform, and co-op type.
 
 **Milestone 1** focuses on correct project structure, wiring, and minimal functionality to verify everything works end-to-end.
 
