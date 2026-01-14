@@ -1,4 +1,4 @@
-# OneNightGames - MVP
+# GameTinder
 
 A full-stack web app for discovering games using a swipe/card UI with 3 decisions: Ignore, Interested, and Play Now.
 
