@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { ProfileMenu } from '../components/ProfileMenu';
-import { getDashboard, createSession } from '../lib/api';
+import { getDashboard, createSession, deleteSwipe, deleteSession } from '../lib/api';
 
 export function Dashboard() {
   const navigate = useNavigate();
@@ -32,6 +32,24 @@ export function Dashboard() {
     try {
       const { sessionId } = await createSession(gameId);
       navigate(`/session/${sessionId}`);
+    } catch (err) {
+      setError(err.message);
+    }
+  }
+
+  async function handleRemoveSaved(gameId) {
+    try {
+      await deleteSwipe(gameId);
+      loadDashboard();
+    } catch (err) {
+      setError(err.message);
+    }
+  }
+
+  async function handleDeleteSession(sessionId) {
+    try {
+      await deleteSession(sessionId);
+      loadDashboard();
     } catch (err) {
       setError(err.message);
     }
@@ -198,7 +216,16 @@ export function Dashboard() {
                             ))}
                           </div>
                         </div>
-                        <div className="flex items-center">
+                        <div className="flex items-center gap-2">
+                          <button
+                            onClick={() => handleRemoveSaved(game.id)}
+                            className="p-3 bg-surface-100 text-surface-500 rounded-xl hover:bg-red-50 hover:text-red-500 transition-colors opacity-0 group-hover:opacity-100"
+                            title="Remove from saved"
+                          >
+                            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                            </svg>
+                          </button>
                           <button
                             onClick={() => handlePlayNow(game.id)}
                             className="p-3 bg-primary-500 text-white rounded-xl hover:bg-primary-600 transition-colors opacity-0 group-hover:opacity-100"
@@ -231,15 +258,18 @@ export function Dashboard() {
                     {data.pastSessions.map((session) => (
                       <div
                         key={session.id}
-                        onClick={() => navigate(`/session/${session.id}`)}
-                        className="flex gap-4 p-3 rounded-2xl hover:bg-surface-50 transition-colors cursor-pointer"
+                        className="flex gap-4 p-3 rounded-2xl hover:bg-surface-50 transition-colors group"
                       >
                         <img
                           src={session.games.cover_url}
                           alt={session.games.title}
-                          className="w-20 h-28 object-cover rounded-xl flex-shrink-0"
+                          className="w-20 h-28 object-cover rounded-xl flex-shrink-0 cursor-pointer"
+                          onClick={() => navigate(`/session/${session.id}`)}
                         />
-                        <div className="flex-1 min-w-0 py-1">
+                        <div
+                          className="flex-1 min-w-0 py-1 cursor-pointer"
+                          onClick={() => navigate(`/session/${session.id}`)}
+                        >
                           <h3 className="font-semibold text-surface-900 mb-1 truncate">
                             {session.games.title}
                           </h3>
@@ -267,10 +297,24 @@ export function Dashboard() {
                             )}
                           </div>
                         </div>
-                        <div className="flex items-center text-surface-300">
-                          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                          </svg>
+                        <div className="flex items-center gap-2">
+                          <button
+                            onClick={() => handleDeleteSession(session.id)}
+                            className="p-3 bg-surface-100 text-surface-500 rounded-xl hover:bg-red-50 hover:text-red-500 transition-colors opacity-0 group-hover:opacity-100"
+                            title="Delete from history"
+                          >
+                            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                            </svg>
+                          </button>
+                          <div
+                            className="text-surface-300 cursor-pointer"
+                            onClick={() => navigate(`/session/${session.id}`)}
+                          >
+                            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                            </svg>
+                          </div>
                         </div>
                       </div>
                     ))}

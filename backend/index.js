@@ -299,6 +299,54 @@ app.patch('/api/sessions/:id/rating', requireAuth, async (req, res) => {
   }
 });
 
+// DELETE /api/swipes/:gameId - Remove a saved game
+app.delete('/api/swipes/:gameId', requireAuth, async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const gameId = req.params.gameId;
+
+    const { error } = await supabase
+      .from('swipes')
+      .delete()
+      .eq('user_id', userId)
+      .eq('game_id', gameId);
+
+    if (error) {
+      console.error('Error deleting swipe:', error);
+      return res.status(500).json({ error: 'Failed to delete swipe' });
+    }
+
+    return res.json({ success: true });
+  } catch (error) {
+    console.error('Error in DELETE /api/swipes/:gameId:', error);
+    return res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// DELETE /api/sessions/:id - Delete a session from history
+app.delete('/api/sessions/:id', requireAuth, async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const sessionId = req.params.id;
+
+    const { error } = await supabase
+      .from('sessions')
+      .delete()
+      .eq('id', sessionId)
+      .eq('user_id', userId);
+
+    if (error) {
+      console.error('Error deleting session:', error);
+      return res.status(500).json({ error: 'Failed to delete session' });
+    }
+
+    return res.json({ success: true });
+  } catch (error) {
+    console.error('Error in DELETE /api/sessions/:id:', error);
+    return res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 // GET /api/dashboard - Get dashboard data
 app.get('/api/dashboard', requireAuth, async (req, res) => {
   try {

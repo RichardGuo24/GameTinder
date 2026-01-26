@@ -108,3 +108,27 @@ export async function getDashboard() {
   }
   return response.json();
 }
+
+export async function deleteSwipe(gameId) {
+  const headers = await getAuthHeaders();
+  const response = await fetch(`${API_BASE_URL}/api/swipes/${gameId}`, {
+    method: 'DELETE',
+    headers
+  });
+  if (!response.ok) {
+    throw new Error('Failed to remove saved game');
+  }
+  return response.json();
+}
+
+export async function deleteSession(sessionId) {
+  const headers = await getAuthHeaders();
+  const response = await fetch(`${API_BASE_URL}/api/sessions/${sessionId}`, {
+    method: 'DELETE',
+    headers
+  });
+  if (!response.ok) {
+    throw new Error('Failed to delete session');
+  }
+  return response.json();
+}
