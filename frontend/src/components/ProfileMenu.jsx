@@ -15,7 +15,7 @@ export function ProfileMenu() {
     <div className="relative">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="w-10 h-10 rounded-full bg-purple-600 text-white flex items-center justify-center hover:bg-purple-700"
+        className="w-10 h-10 rounded-full bg-surface-100 text-surface-600 flex items-center justify-center hover:bg-surface-200 transition-colors"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -23,7 +23,7 @@ export function ProfileMenu() {
           viewBox="0 0 24 24"
           strokeWidth={1.5}
           stroke="currentColor"
-          className="w-6 h-6"
+          className="w-5 h-5"
         >
           <path
             strokeLinecap="round"
@@ -36,33 +36,43 @@ export function ProfileMenu() {
       {isOpen && (
         <>
           <div
-            className="fixed inset-0"
+            className="fixed inset-0 z-40"
             onClick={() => setIsOpen(false)}
           />
-          <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
+          <div className="absolute right-0 mt-2 w-52 bg-white rounded-2xl shadow-card overflow-hidden z-50 py-2">
             <button
               onClick={() => {
                 navigate('/dashboard');
                 setIsOpen(false);
               }}
-              className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+              className="w-full text-left px-4 py-3 text-sm text-surface-700 hover:bg-surface-50 flex items-center gap-3 transition-colors"
             >
-              Dashboard
+              <svg className="w-4 h-4 text-surface-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+              </svg>
+              <span>Dashboard</span>
             </button>
             <button
               onClick={() => {
                 navigate('/swipe');
                 setIsOpen(false);
               }}
-              className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+              className="w-full text-left px-4 py-3 text-sm text-surface-700 hover:bg-surface-50 flex items-center gap-3 transition-colors"
             >
-              Swipe
+              <svg className="w-4 h-4 text-surface-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+              </svg>
+              <span>Swipe</span>
             </button>
+            <div className="my-2 border-t border-surface-100" />
             <button
               onClick={handleSignOut}
-              className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
+              className="w-full text-left px-4 py-3 text-sm text-red-500 hover:bg-red-50 flex items-center gap-3 transition-colors"
             >
-              Sign out
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+              </svg>
+              <span>Sign out</span>
             </button>
           </div>
         </>
